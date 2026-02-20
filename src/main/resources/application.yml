@@ -1,0 +1,39 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/aipaper
+    username: aipaper
+    password: aipaper
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      connection-timeout: 10000
+      idle-timeout: 300000
+      max-lifetime: 600000
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+llm:
+  ollama:
+    base-url: http://localhost:11434
+    model: llama3
+    timeout-seconds: 120
+  gemini:
+    api-key: ${GEMINI_API_KEY:changeme}
+    base-url: https://generativelanguage.googleapis.com/v1beta/openai
+    model: gemini-2.0-flash
+    timeout-seconds: 60
+  groq:
+    api-key: ${GROQ_API_KEY:changeme}
+    base-url: https://api.groq.com/openai
+    model: llama3-70b-8192
+    timeout-seconds: 60
+
+benchmark:
+  iterations: 1000
+  warmup-iterations: 50
+  output-file: benchmark_results.csv
