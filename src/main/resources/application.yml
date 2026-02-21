@@ -1,8 +1,11 @@
+server:
+  port: 8081
+
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/aipaper
-    username: aipaper
-    password: aipaper
+    url: jdbc:postgresql://localhost:5433/${POSTGRES_DB:aipaper}
+    username: ${POSTGRES_USER:aipaper}
+    password: ${POSTGRES_PASSWORD:aipaper}
     hikari:
       maximum-pool-size: 20
       minimum-idle: 5
@@ -19,9 +22,9 @@ spring:
 
 llm:
   ollama:
-    base-url: http://localhost:11434
-    model: llama3
-    timeout-seconds: 120
+    base-url: ${OLLAMA_BASE_URL:http://172.31.112.1:11434}
+    model: ${OLLAMA_MODEL:llama3}
+    timeout-seconds: 30
   gemini:
     api-key: ${GEMINI_API_KEY:changeme}
     base-url: https://generativelanguage.googleapis.com/v1beta/openai
@@ -34,6 +37,17 @@ llm:
     timeout-seconds: 60
 
 benchmark:
-  iterations: 1000
-  warmup-iterations: 50
+  iterations: 100
+  warmup-iterations: 0
   output-file: benchmark_results.csv
+  ollama-models: ${OLLAMA_MODELS:llama3.1:70b}
+  gemini:
+    enabled: false
+    iterations: 70
+    warmup-iterations: 3
+    delay-ms: 6500
+  groq:
+    enabled: false
+    iterations: 300
+    warmup-iterations: 5
+    delay-ms: 2200

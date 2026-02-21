@@ -21,12 +21,17 @@ public class LlmClientConfig {
             @Value("${llm.ollama.base-url}") String baseUrl,
             @Value("${llm.ollama.model}") String model) {
 
-        var api = new OllamaApi(baseUrl);
-        return new OllamaChatModel(api,
-                OllamaOptions.builder()
+        var api = new OllamaApi.Builder()
+                .baseUrl(baseUrl)
+                .build();
+
+        return OllamaChatModel.builder()
+                .ollamaApi(api)
+                .defaultOptions(OllamaOptions.builder()
                         .model(model)
                         .temperature(0.0)
-                        .build());
+                        .build())
+                .build();
     }
 
     @Bean
@@ -41,11 +46,13 @@ public class LlmClientConfig {
                 .baseUrl(baseUrl)
                 .build();
 
-        return new OpenAiChatModel(api,
-                OpenAiChatOptions.builder()
+        return OpenAiChatModel.builder()
+                .openAiApi(api)
+                .defaultOptions(OpenAiChatOptions.builder()
                         .model(model)
                         .temperature(0.0)
-                        .build());
+                        .build())
+                .build();
     }
 
     @Bean
@@ -60,10 +67,12 @@ public class LlmClientConfig {
                 .baseUrl(baseUrl)
                 .build();
 
-        return new OpenAiChatModel(api,
-                OpenAiChatOptions.builder()
+        return OpenAiChatModel.builder()
+                .openAiApi(api)
+                .defaultOptions(OpenAiChatOptions.builder()
                         .model(model)
                         .temperature(0.0)
-                        .build());
+                        .build())
+                .build();
     }
 }

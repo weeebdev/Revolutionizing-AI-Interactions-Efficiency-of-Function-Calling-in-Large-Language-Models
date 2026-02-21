@@ -52,7 +52,7 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- Spring AI - manual config (no starters, to avoid autoconfiguration conflicts) -->
+        <!-- Spring AI - model providers -->
         <dependency>
             <groupId>org.springframework.ai</groupId>
             <artifactId>spring-ai-openai</artifactId>
@@ -60,6 +60,18 @@
         <dependency>
             <groupId>org.springframework.ai</groupId>
             <artifactId>spring-ai-ollama</artifactId>
+        </dependency>
+        <!-- Spring AI - ChatClient API -->
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-client-chat</artifactId>
+        </dependency>
+
+        <!-- .env file support -->
+        <dependency>
+            <groupId>me.paulschwarz</groupId>
+            <artifactId>spring-dotenv</artifactId>
+            <version>4.0.0</version>
         </dependency>
 
         <!-- Testing -->

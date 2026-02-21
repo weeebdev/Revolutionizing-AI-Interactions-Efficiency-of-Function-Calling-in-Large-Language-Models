@@ -1,50 +1,16 @@
 services:
   postgres:
     image: postgres:16-alpine
-    environment:
-      POSTGRES_DB: aipaper
-      POSTGRES_USER: aipaper
-      POSTGRES_PASSWORD: aipaper
+    env_file: .env
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U aipaper"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-aipaper}"]
       interval: 5s
       timeout: 5s
       retries: 5
 
-  ollama:
-    image: ollama/ollama:latest
-    ports:
-      - "11434:11434"
-    volumes:
-      - ollama_data:/root/.ollama
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all
-              capabilities: [gpu]
-    healthcheck:
-      test: ["CMD-SHELL", "ollama list || exit 1"]
-      interval: 10s
-      timeout: 5s
-      retries: 10
-      start_period: 15s
-
-  ollama-init:
-    image: ollama/ollama:latest
-    depends_on:
-      ollama:
-        condition: service_healthy
-    restart: "no"
-    entrypoint: ["ollama", "pull", "llama3"]
-    environment:
-      OLLAMA_HOST: http://ollama:11434
-
 volumes:
   pgdata:
-  ollama_data:
